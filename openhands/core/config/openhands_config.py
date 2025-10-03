@@ -108,6 +108,12 @@ class OpenHandsConfig(BaseModel):
     cli_multiline_input: bool = Field(default=False)
     conversation_max_age_seconds: int = Field(default=864000)  # 10 days in seconds
     enable_default_condenser: bool = Field(default=True)
+    
+    # OpenCoq cognitive system settings
+    opencog_enabled: bool = Field(default=False, description='Enable OpenCoq cognitive architecture features')
+    opencog_attention_threshold: float = Field(default=0.1, description='Attention threshold for OpenCoq')
+    opencog_max_atomspace_size: int = Field(default=10000, description='Maximum AtomSpace size')
+    opencog_reasoning_iterations: int = Field(default=5, description='Max reasoning iterations per step')
     max_concurrent_conversations: int = Field(
         default=3
     )  # Maximum number of concurrent agent loops allowed per user
