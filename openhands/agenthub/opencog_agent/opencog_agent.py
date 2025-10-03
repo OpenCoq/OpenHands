@@ -26,9 +26,14 @@ from openhands.agenthub.codeact_agent.tools.str_replace_editor import create_str
 from openhands.agenthub.codeact_agent.tools.think import ThinkTool
 
 # OpenCoq specific tools
-from .tools.knowledge_query import KnowledgeQueryTool
-from .tools.reasoning import ReasoningTool
-from .tools.attention import AttentionTool
+# Import cognitive tools conditionally to avoid import issues
+try:
+    from .tools.knowledge_query import KnowledgeQueryTool
+    from .tools.reasoning import ReasoningTool
+    from .tools.attention import AttentionTool
+    COGNITIVE_TOOLS_AVAILABLE = True
+except ImportError:
+    COGNITIVE_TOOLS_AVAILABLE = False
 
 from openhands.controller.agent import Agent
 from openhands.controller.state.state import State
@@ -219,8 +224,8 @@ class OpenCogAgent(Agent):
         except Exception:
             pass
         
-        # Add cognitive tools if enabled
-        if self.use_cognitive_tools:
+        # Add cognitive tools if enabled and available
+        if self.use_cognitive_tools and COGNITIVE_TOOLS_AVAILABLE:
             tools.append(KnowledgeQueryTool.get_tool())
             tools.append(ReasoningTool.get_tool())
             tools.append(AttentionTool.get_tool())
